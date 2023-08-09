@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,5 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('user')->group(function () {
-    Route::post('/signUp', [UserController::class, 'signUp']);
+    Route::post('/signup', [UserController::class, 'signup']);
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/refesh', [UserController::class, 'refesh']);
 });
+Route::apiResources(['store' => StoreController::class]);
