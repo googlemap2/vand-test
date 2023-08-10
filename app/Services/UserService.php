@@ -36,7 +36,7 @@ class  UserService
         ]);
     }
 
-    public function refeshToken()
+    public function refreshToken()
     {
         return response()->json([
             'user' => auth()->user(),

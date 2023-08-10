@@ -20,6 +20,6 @@ Route::prefix('user')->group(function () {
     Route::post('/signup', [UserController::class, 'signup']);
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/logout', [UserController::class, 'logout']);
-    Route::post('/refesh', [UserController::class, 'refesh']);
+    Route::post('/refresh', [UserController::class, 'refresh']);
 });
 Route::apiResources(['store' => StoreController::class]);

@@ -13,6 +13,7 @@ class UserController extends Controller
   protected $userServce;
   public function __construct(UserService $userServce)
   {
+    parent::__construct();
     $this->userServce = $userServce;
   }
   public function signup(Request $request)
@@ -58,6 +59,6 @@ class UserController extends Controller
   }
   public function refresh()
   {
-    return $this->userServce->refeshToken();
+    return $this->userServce->refreshToken();
   }
 }
