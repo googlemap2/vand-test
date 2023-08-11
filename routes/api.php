@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -23,3 +24,4 @@ Route::prefix('user')->group(function () {
     Route::post('/refresh', [UserController::class, 'refresh']);
 });
 Route::apiResources(['store' => StoreController::class]);
+Route::apiResources(['product' => ProductController::class]);

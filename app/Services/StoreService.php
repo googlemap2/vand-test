@@ -6,7 +6,6 @@ namespace App\Services;
 use Illuminate\Support\Str;
 use App\Models\Store;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 class  StoreService
 {
@@ -29,12 +28,12 @@ class  StoreService
             $query->where('name', 'like', "%$keyword%");
             $query->orWhere('code', 'like', "%$keyword%");
         }
-        $data = $query->get()->toArray();
+        $data = $query->with('user')->get()->toArray();
         return response()->json(['data' => $data]);
     }
     public function detailStore($code)
     {
-        $data = $this->store->where('code', $code)->first();
+        $data = $this->store->where('code', $code)->with('storeProduct')->first();
         return response()->json(['data' => $data]);
     }
     public function createStore($data)
@@ -54,6 +53,7 @@ class  StoreService
         $this->store->save();
         return response()->json(['data' => $this->store]);
     }
+
     public function destroyStore($code)
     {
         $store = $this->store->where('code', $code)->first();
