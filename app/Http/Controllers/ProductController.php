@@ -57,19 +57,19 @@ class ProductController extends Controller
     {
         return $this->productService->destroyProduct($code);
     }
-    // public function update(Request $request, $code)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => 'required',
-    //         'user_id' => 'required'
-    //     ]);
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'message' => implode(', ', $validator->errors()->all())
-    //         ], 422);
-    //     }
-    //     $body = $request->getContent();
-    //     $body = json_decode($body, true);
-    //     return $this->storeService->updateStore($code, $body);
-    // }
+    public function update(Request $request, $code)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'skus' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => implode(', ', $validator->errors()->all())
+            ], 422);
+        }
+        $body = $request->getContent();
+        $body = json_decode($body, true);
+        return $this->productService->updateProduct($code, $body);
+    }
 }

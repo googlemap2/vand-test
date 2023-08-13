@@ -105,4 +105,43 @@ class  ProductService
             'message' => 'Delete Succesed!!'
         ]);
     }
+
+    public function updateProduct($code, $data)
+    {
+        $product = $this->product->where('code', $code)->first();
+        if (!$product) {
+            return response()->json([
+                'message' => 'Not found product!!'
+            ], 422);
+        }
+
+        $dataSave = [
+            'name' => $data['name']
+        ];
+
+        $product->update($dataSave);
+        $dataSaveProductVars = [];
+        $this->productVariations->where('product_id', $product->id)->update(['deleted' => true]);
+        if ($product) {
+            foreach ($data['skus'] as $index => $value) {
+                $this->productVariations->refresh();
+                if ($value['sku']) {
+                    $this->productVariations->where('sku', $value['sku'])->update(['deleted' => false, 'variation' => $value['variation'], 'price' => $value['price']]);
+                    continue;
+                }
+                unset($value['sku']);
+                array_push($dataSaveProductVars, [
+                    'variation' => $value['variation'],
+                    'price' => $value['price'],
+                    'product_id' => $product->id,
+                    'sku' => Str::random(6),
+
+                ]);
+            }
+        }
+        if ($dataSaveProductVars) {
+            $this->productVariations->insert($dataSaveProductVars);
+        }
+        return response()->json(['data' => $product]);
+    }
 }
